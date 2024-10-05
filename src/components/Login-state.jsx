@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "./Input";
 
 export default function Login() {
 
@@ -13,6 +14,7 @@ export default function Login() {
   });
 
   const isEmailInvalid = isEdit.email && !userInput.email.includes('@');
+  const isPasswordInvalid = isEdit.password && userInput.password.length < 6;
 
   function handleChange(identifier, value) {
     setUserInput(prevState => ({
@@ -43,22 +45,33 @@ export default function Login() {
       <h2>Login</h2>
 
       <div className="control-row">
-        <div className="control no-margin">
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" onBlur={() => handleInputBlur('email')} value={userInput.email} onChange={(event) => handleChange('email', event.target.value)} />
-          <div className="control-error">{isEmailInvalid && <p>Please enter a valid email</p>}</div>
-        </div>
+      <Input 
+        label="Email" 
+        id="email"
+        type="email"
+        name="email"
+        onBlur={() => handleInputBlur('email')} 
+        value={userInput.email} 
+        onChange={(event) => handleChange('email', event.target.value)}
+        error={isEmailInvalid && 'Please enter a valid email'}
+      />
 
-        <div className="control no-margin">
-          <label htmlFor="password">Password</label>
-          <input id="password" type="password" name="password" onBlur={() => handleInputBlur('password')} value={userInput.value} onChange={(event) => handleChange('email', event.target.value)} />
-        </div>
-      </div>
+      <Input 
+        label="Password" 
+        id="password"
+        type="password"
+        name="password"
+        onBlur={() => handleInputBlur('password')} 
+        value={userInput.password} 
+        onChange={(event) => handleChange('password', event.target.value)}
+        error={isPasswordInvalid && 'Please enter a valid password'}
+      />
 
       <p className="form-actions">
         <button className="button button-flat">Reset</button>
         <button className="button">Login</button>
       </p>
+      </div>
     </form>
   );
 }
